@@ -8,8 +8,8 @@ function App() {
   return (
     <Router>
       <AppNavigator />
-      <Route path="/" component={Pokedex} />
-      <Route path="/pokemon/:id" component={PokemonDetails} />
+      <Route exact path="/" component={Pokedex} />
+      <Route exact path="/pokemon/:id" component={PokemonDetails} />
     </Router>
   )
 }
