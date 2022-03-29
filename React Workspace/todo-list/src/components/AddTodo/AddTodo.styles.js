@@ -1,4 +1,4 @@
-let styles = {
+const styles = {
     inputField: {
         border: 'none',
         width: '72%',

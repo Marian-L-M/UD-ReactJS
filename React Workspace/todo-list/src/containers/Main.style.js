@@ -1,4 +1,4 @@
-let styles = {
+const styles = {
     appContainer: {
         width: '100%',
         height:'100vh',
@@ -23,6 +23,12 @@ let styles = {
     inputWrapper: {
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    separator: {
+        color: 'black',
+        height: '0.01mm',
+        width: '78%',
+        marginBottom: 15
     }
 }
 
