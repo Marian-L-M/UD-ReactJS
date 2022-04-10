@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useCallback} from 'react'
 import {makeStyles, Box, Typography} from '@material-ui/core'
 import Joke from './Joke'
 import axios from 'axios';
@@ -62,7 +62,17 @@ export default function JokesList() {
 
     useEffect(() => {
       getJokes()
-    }, [])
+    }, []);
+
+    const handleVote = useCallback(( id, offset) => {
+        let filteredJokes = jokes.filter((joke) => joke.id !== id);
+        let joke = jokes.find((joke) => joke.id === id);
+        joke.votes += offset;
+        filteredJokes.push(joke);
+        filteredJokes.sort((a, b) => b.votes  - a.votes);
+        setJokes(filteredJokes);
+      }, [jokes]);
+
     if(jokes){
         return (
           <Box className={classes.jokesList}>
@@ -77,7 +87,16 @@ export default function JokesList() {
             <Box className={classes.jokesListJokes}>
               {jokes.map((joke) =>{
                 return(
-                  <Joke votes={joke.votes} text={joke.text} key={joke.id}/>
+                  <Joke 
+                    votes={joke.votes} 
+                    text={joke.text} 
+                    upvote={() => {
+                      handleVote(joke.id, 1)
+                    }} 
+                    downvote={() => {
+                      handleVote(joke.id, -1)
+                    }} 
+                    key={joke.id}/>
                 )
               })}
             </Box>

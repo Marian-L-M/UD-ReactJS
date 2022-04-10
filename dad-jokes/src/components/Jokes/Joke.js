@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 import { Box, makeStyles, Typography } from '@material-ui/core'
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward'
@@ -40,20 +40,35 @@ const useStyles = makeStyles((theme) =>({
 }))
 
 export default function Joke(props) {
-    const { votes, text} = props
-    const classes = useStyles()
+    const { votes, text, upvote, downvote} = props
+    const classes = useStyles();
+    const getEmoji = useCallback(
+      (votes) => {
+        if(votes >= 9) {
+            return "em em-rolling_on_the_floor_laughing"
+        } else if (votes >= 6) {
+            return "em em-laughing"
+        } else if (votes >= 3) {
+            return "em em-slightly_smiling_face"
+        } else if (votes >= 0) {
+            return "em em-neutral_face"
+        } else {
+            return "em em-angry"
+        }
+      },[]);
+    
     return (
         <Box className={classes.joke}>
             <Box className={classes.jokeButtons}>
-                <ArrowUpwardIcon className={classes.arrowIcon}/>
+                <ArrowUpwardIcon className={classes.arrowIcon} onClick={() => {upvote()}} />
                 <Typography className={classes.votesLabel}>{votes}</Typography>
-                <ArrowDownwardIcon className={classes.arrowIcon}/>
+                <ArrowDownwardIcon className={classes.arrowIcon} onClick={() => {downvote()}}/>
             </Box>
             <Box className={classes.jokeText}>
                 {text}
             </Box>
             <Box className={classes.jokeEmoji}>
-                <i className='em em-laughing'/>
+                <i className={getEmoji(votes)}/>
             </Box>
         </Box>
     )
